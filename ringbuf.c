@@ -4,25 +4,24 @@
 //  ->capacity of BUFFER_SIZE bytes
 //////////////////////////////////////////////////////////////////////////
 
-
 #include <stdio.h> //For Printf & Scanf
 #include<stdint.h> //For fixed-width types uint8_t & ubt8_t
 #include<string.h> //For memset() to clear the buffer
 #include<stdlib.h> // Standard library
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//               Configuration
-//  ->BUFFER_SIZE must be a power of 2(1,2,4,8,16,....).
-//  ->This allows the the fast bitwies-AND wrap trick:
-//  ->index & (BUFFER_SIZE-1)
-//  ->instead of the slower modulo:
-//  ->index % BUFFER_SIZE
-//  ->The '%' operater comiles to a hardware division instruction on most MCU.
+//                         Configuration
+// ->BUFFER_SIZE must be a power of 2(1,2,4,8,16,....).
+// ->This allows the the fast bitwies-AND wrap trick:
+// ->index & (BUFFER_SIZE-1)
+// ->instead of the slower modulo:
+// ->index % BUFFER_SIZE
+// ->The '%' operater comiles to a hardware division instruction on most MCU.
 //    Many low-end microcontrollers (Ex AVR , Cortex-M0) have No hardware divider
 //    so the toolchain inserts a software division routine that can take 20-100+ CPU cycles
 //    A bitwise AND always takes exactly 1 cycle . In a UART ISR that fires thousands of times per second
 //    this difference matters significantly.
-//  ->Why only power-of-2? When BUFFER_SIZE = 2^N , (buffer_size-1)is a bitmask of N ones (EX 8-1 = 0B00000111).ANDing any index with this 
+// ->Why only power-of-2? When BUFFER_SIZE = 2^N , (buffer_size-1)is a bitmask of N ones (EX 8-1 = 0B00000111).ANDing any index with this 
 //    mask keeps only the lower N bits , which is identical to index % 8 for 
 //    non-negative integers.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
