@@ -115,7 +115,7 @@ int8_t ringbuf_read(RingBuf *rb , uint8_t *out_byte)
 }
 
 /////////////////////////////
-// Demp --main()
+// Demo --main()
 /////////////////////////////
 
 int main()
